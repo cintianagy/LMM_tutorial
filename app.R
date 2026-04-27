@@ -3,41 +3,35 @@ library(bslib)
 library(tidyverse)
 library(afex)
 
+source("R/simulation.R")
+source("R/page1_intro.R")
+source('R/page2_fix_and_random.R')
+source("R/page4_problems_solutions.R")
+
 # ui
 ui <- page_fluid(
+  tags$head(
+    tags$link(rel = "stylesheet", href = "styles.css")
+  ),
   navset_tab( 
-    nav_panel("1. Miért hasznos az LMM?", "Page A content"), 
-    nav_panel("2. Fix és random hatások", "Page B content"), 
-    nav_panel("3. Modellillesztés példa", "Page C content"),
-    nav_panel("4. Modellillesztés R-ben", "content"),
-    nav_panel("5. Lehetséges problémák és kezelésük", "content"),
-    nav_panel("6. Módszerek és eredmények közlése", "content"),
-    nav_panel("7. Kitekintés", "content"),
-    nav_panel("8. Források és köszönetnyilvánítás", "content")
+    nav_panel("1. Miért hasznos az LMM?", page1_intro_ui()), 
+    nav_panel("2. Fix és random hatások", page2_fix_and_random_ui()), 
+    nav_panel("3. Modellillesztés R-ben", "content"),
+    nav_panel("4. Lehetséges problémák és kezelésük", page4_problems_solutions_ui()),
+    nav_panel("5. Módszerek és eredmények közlése", page5_reporting_ui()),
+    nav_panel("6. Kitekintés", page6_outlook_ui()),
+    nav_panel("7. Források és köszönetnyilvánítás", "content")
   ), 
   id = "tab" 
 )
 
 # server
-server <- function(input, output) {
+server <- function(input, output, session) {
   
-  data <- reactive({
-    simulate_data(input$n_subj, 20, input$sd_intercept, input$sd_slope, 1)
+  output$plot_page1 <- renderPlot({
+    vary.data.graph
   })
   
-  output$plot <- renderPlot({
-    df <- data()
-    ggplot(df, aes(x, y, group = subj)) +
-      geom_line(alpha = 0.3)
-  })
-  
-  model <- eventReactive(input$fit, {
-    lmer(y ~ x + (1 + x | subj), data = data())
-  })
-  
-  output$model <- renderPrint({
-    model()
-  })
 }
 
 shinyApp(ui, server)
