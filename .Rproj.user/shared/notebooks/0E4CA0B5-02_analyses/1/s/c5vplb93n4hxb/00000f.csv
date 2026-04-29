@@ -1,0 +1,6 @@
+"0","data_RT <- read_csv(""processed_data/ASRT/data_SL_RT.csv"")"
+"1","[1m[33mError[39m:[22m
+[38;5;255m[33m![38;5;255m ]8;;file://D:/GitHub/transfer_thesis/scripts/processed_data/ASRT/data_SL_RT.csv[34mprocessed_data/ASRT/data_SL_RT.csv[38;5;255m]8;; does not exist in current working directory:
+  ]8;;file://D:/GitHub/transfer_thesis/scripts[34mD:/GitHub/transfer_thesis/scripts[38;5;255m]8;;.[39m
+[90mRun `]8;;x-r-run:rlang::last_trace()rlang::last_trace()]8;;` to see where the error occurred.[39m
+"

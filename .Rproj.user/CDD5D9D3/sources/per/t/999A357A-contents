@@ -22,38 +22,38 @@ page2_fix_and_random_ui <- function() {
         
         span(class = "eq-term",
              "yᵢⱼ",
-             onmouseover = "Shiny.setInputValue('hover_term', 'y', {priority: 'event'})",
-             onmouseout  = "Shiny.setInputValue('hover_term', 'none', {priority: 'event'})"
+             onmouseover = "Shiny.setInputValue('hover_term1', 'y', {priority: 'event'})",
+             onmouseout  = "Shiny.setInputValue('hover_term1', 'none', {priority: 'event'})"
         ),
         " = ",
         span(class = "eq-term",
              "β₀",
-             onmouseover = "Shiny.setInputValue('hover_term', 'beta0', {priority: 'event'})",
-             onmouseout  = "Shiny.setInputValue('hover_term', 'none', {priority: 'event'})"
+             onmouseover = "Shiny.setInputValue('hover_term1', 'beta0', {priority: 'event'})",
+             onmouseout  = "Shiny.setInputValue('hover_term1', 'none', {priority: 'event'})"
         ),
         " + ",
         span(class = "eq-term",
              "β₁",
-             onmouseover = "Shiny.setInputValue('hover_term', 'beta1', {priority: 'event'})",
-             onmouseout  = "Shiny.setInputValue('hover_term', 'none', {priority: 'event'})"
+             onmouseover = "Shiny.setInputValue('hover_term1', 'beta1', {priority: 'event'})",
+             onmouseout  = "Shiny.setInputValue('hover_term1', 'none', {priority: 'event'})"
         ),
         "×",
         span(class = "eq-term",
         "xᵢⱼ",
-        onmouseover = "Shiny.setInputValue('hover_term', 'x', {priority: 'event'})",
-        onmouseout  = "Shiny.setInputValue('hover_term', 'none', {priority: 'event'})"
+        onmouseover = "Shiny.setInputValue('hover_term1', 'x', {priority: 'event'})",
+        onmouseout  = "Shiny.setInputValue('hover_term1', 'none', {priority: 'event'})"
       ),
         " + ",
         span(class = "eq-term",
              "u₀ⱼ",
-             onmouseover = "Shiny.setInputValue('hover_term', 'random', {priority: 'event'})",
-             onmouseout  = "Shiny.setInputValue('hover_term', 'none', {priority: 'event'})"
+             onmouseover = "Shiny.setInputValue('hover_term1', 'random', {priority: 'event'})",
+             onmouseout  = "Shiny.setInputValue('hover_term1', 'none', {priority: 'event'})"
         ),
         " + ",
         span(class = "eq-term",
              "εᵢⱼ",
-             onmouseover = "Shiny.setInputValue('hover_term', 'error', {priority: 'event'})",
-             onmouseout  = "Shiny.setInputValue('hover_term', 'none', {priority: 'event'})"
+             onmouseover = "Shiny.setInputValue('hover_term1', 'error', {priority: 'event'})",
+             onmouseout  = "Shiny.setInputValue('hover_term1', 'none', {priority: 'event'})"
         ),
         div(
           style = "margin-top: 15px; font-size: 16px;",
@@ -69,48 +69,48 @@ page2_fix_and_random_ui <- function() {
         
         span(class = "eq-term",
              "yᵢⱼ",
-             onmouseover = "Shiny.setInputValue('hover_term', 'y', {priority: 'event'})",
-             onmouseout  = "Shiny.setInputValue('hover_term', 'none', {priority: 'event'})"
+             onmouseover = "Shiny.setInputValue('hover_term2', 'y', {priority: 'event'})",
+             onmouseout  = "Shiny.setInputValue('hover_term2', 'none', {priority: 'event'})"
         ),
         " = ",
         span(class = "eq-term",
              "β₀",
-             onmouseover = "Shiny.setInputValue('hover_term', 'beta0', {priority: 'event'})",
-             onmouseout  = "Shiny.setInputValue('hover_term', 'none', {priority: 'event'})"
+             onmouseover = "Shiny.setInputValue('hover_term2', 'beta0', {priority: 'event'})",
+             onmouseout  = "Shiny.setInputValue('hover_term2', 'none', {priority: 'event'})"
         ),
         " + ",
         span(class = "eq-term",
              "β₁",
-             onmouseover = "Shiny.setInputValue('hover_term', 'beta1', {priority: 'event'})",
-             onmouseout  = "Shiny.setInputValue('hover_term', 'none', {priority: 'event'})"
+             onmouseover = "Shiny.setInputValue('hover_term2', 'beta1', {priority: 'event'})",
+             onmouseout  = "Shiny.setInputValue('hover_term2', 'none', {priority: 'event'})"
         ),
         "×",
         span(class = "eq-term",
              "xᵢⱼ",
-             onmouseover = "Shiny.setInputValue('hover_term', 'x', {priority: 'event'})",
-             onmouseout  = "Shiny.setInputValue('hover_term', 'none', {priority: 'event'})"
+             onmouseover = "Shiny.setInputValue('hover_term2', 'x', {priority: 'event'})",
+             onmouseout  = "Shiny.setInputValue('hover_term2', 'none', {priority: 'event'})"
         ),
         " + ",
         span(class = "eq-term",
              "u₀ⱼ",
-             onmouseover = "Shiny.setInputValue('hover_term', 'random', {priority: 'event'})",
-             onmouseout  = "Shiny.setInputValue('hover_term', 'none', {priority: 'event'})"
+             onmouseover = "Shiny.setInputValue('hover_term2', 'random', {priority: 'event'})",
+             onmouseout  = "Shiny.setInputValue('hover_term2', 'none', {priority: 'event'})"
         ),
         " + ",
         span(class = "eq-term",
              "u₁ⱼxᵢⱼ",
-             onmouseover = "Shiny.setInputValue('hover_term', 'random_slope', {priority: 'event'})",
-             onmouseout  = "Shiny.setInputValue('hover_term', 'none', {priority: 'event'})"
+             onmouseover = "Shiny.setInputValue('hover_term2', 'random_slope', {priority: 'event'})",
+             onmouseout  = "Shiny.setInputValue('hover_term2', 'none', {priority: 'event'})"
         ),
         " + ",
         span(class = "eq-term",
              "εᵢⱼ",
-             onmouseover = "Shiny.setInputValue('hover_term', 'error', {priority: 'event'})",
-             onmouseout  = "Shiny.setInputValue('hover_term', 'none', {priority: 'event'})"
+             onmouseover = "Shiny.setInputValue('hover_term2', 'error', {priority: 'event'})",
+             onmouseout  = "Shiny.setInputValue('hover_term2', 'none', {priority: 'event'})"
         ),
         div(
           style = "margin-top: 15px; font-size: 16px;",
-          textOutput("equation_explanation2")
+          uiOutput("equation_explanation2")
         )
       )
     ),

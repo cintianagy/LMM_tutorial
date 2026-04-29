@@ -84,3 +84,16 @@ body h3 {
   color: #7565A4;
   cursor: pointer;
 }
+
+pre {
+  background-color: #f6f8fa;
+  padding: 12px;
+  border-radius: 8px;
+  overflow-x: auto;
+}
+
+code {
+  font-family: monospace;
+  font-size: 14px;
+  padding-bottom: 5px;
+}

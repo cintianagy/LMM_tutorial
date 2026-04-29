@@ -2,11 +2,12 @@ library(shiny)
 library(bslib)
 library(tidyverse)
 library(afex)
+library(sjPlot)
 library(gganimate)
 
-source("R/simulation.R")
 source("R/page1_intro.R")
 source('R/page2_fix_and_random.R')
+source("R/page3_fitting.R")
 source("R/page4_problems_solutions.R")
 
 # ui
@@ -17,7 +18,7 @@ ui <- page_fluid(
   navset_tab( 
     nav_panel("1. Miért hasznos az LMM?", page1_intro_ui()), 
     nav_panel("2. Fix és random hatások", page2_fix_and_random_ui()), 
-    nav_panel("3. Modellillesztés R-ben", "content"),
+    nav_panel("3. Modellillesztés R-ben", page3_fitting_ui()),
     nav_panel("4. Lehetséges problémák és kezelésük", page4_problems_solutions_ui()),
     nav_panel("5. Módszerek és eredmények közlése", page5_reporting_ui()),
     nav_panel("6. Kitekintés", page6_outlook_ui()),
@@ -65,15 +66,15 @@ server <- function(input, output, session) {
   })
   
   # page 2: random intercept
-  hover_term <- reactive({
-    input$hover_term %||% "none"
+  hover_term1 <- reactive({
+    input$hover_term1 %||% "none"
   })
   
   output$plot1_page2 <- renderPlot({
     
     df <- df
     
-    term <- hover_term()
+    term <- hover_term1()
     
     base <- ggplot(df, aes(xs, outcome)) +
       geom_point(color = "gray70", size = 3) +
@@ -119,7 +120,7 @@ server <- function(input, output, session) {
     } else if (term == "beta1") {
       
       base +
-        geom_smooth(method = "lm", se = FALSE, color = "blue", size = 1.5)
+        geom_smooth(method = "lm", se = FALSE, color = "#7393B3", size = 1.5)
     }
       else if (term == "beta0") {
         beta0 <- coef(lm(outcome ~ xs, data = df))[1]
@@ -132,7 +133,7 @@ server <- function(input, output, session) {
     } else if (term == "y") {
       
       base +
-        geom_point(color = "red", size = 4)
+        geom_point(color = "#811331", size = 4)
       
     } else {
       base
@@ -141,7 +142,7 @@ server <- function(input, output, session) {
   
   output$equation_explanation <- renderText({
     
-    term <- input$hover_term %||% "none"
+    term <- input$hover_term1 %||% "none"
     
     switch(term,
            "y" = "yᵢⱼ: a megfigyelt kimeneti érték",
@@ -155,15 +156,15 @@ server <- function(input, output, session) {
   })
   
   # page 2: random slope
-  hover_term <- reactive({
-    input$hover_term %||% "none"
+  hover_term2 <- reactive({
+    input$hover_term2 %||% "none"
   })
   
-  output$plot1_page2 <- renderPlot({
+  output$plot2_page2 <- renderPlot({
     
     df <- df
     
-    term <- hover_term()
+    term <- hover_term2()
     
     base <- ggplot(df, aes(xs, outcome)) +
       geom_point(color = "gray70", size = 3) +
@@ -206,10 +207,41 @@ server <- function(input, output, session) {
           size = 1.2
         )
       
+     } else if (term == "random_slope") {
+        
+        # global model (fixed effects reference)
+        fit_global <- lm(outcome ~ xs, data = df)
+        beta0 <- coef(fit_global)[1]
+        
+        # group-specific models (random slopes)
+        df_lines <- do.call(rbind, lapply(split(df, df$group), function(d) {
+          
+          fit <- lm(outcome ~ xs, data = d)
+          
+          data.frame(
+            group = d$group[1],
+            xs = d$xs,
+            pred = predict(fit, newdata = d)
+          )
+        }))
+        
+        
+        base +
+          
+          # highlight points
+          geom_point(aes(color = group), size = 3.5) +
+          
+          # different slope lines
+          geom_line(
+            data = df_lines,
+            aes(xs, pred, color = group, group = group),
+            size = 1.2
+          )
+        
     } else if (term == "beta1") {
       
       base +
-        geom_smooth(method = "lm", se = FALSE, color = "blue", size = 1.5)
+        geom_smooth(method = "lm", se = FALSE, color = "#7393B3", size = 1.5)
     }
     else if (term == "beta0") {
       beta0 <- coef(lm(outcome ~ xs, data = df))[1]
@@ -222,18 +254,18 @@ server <- function(input, output, session) {
     } else if (term == "y") {
       
       base +
-        geom_point(color = "red", size = 4)
+        geom_point(color = "#811331", size = 4)
       
     } else {
       base
     }
   })
   
-  output$equation_explanation2 <- renderText({
+  output$equation_explanation2 <- renderUI({
     
-    term <- input$hover_term %||% "none"
+    term2 <- input$hover_term2 %||% "none"
     
-    switch(term,
+    switch(term2,
            "y" = "yᵢⱼ: a megfigyelt kimeneti érték",
            "x" = "xᵢⱼ: prediktor értéke", 
            "beta0" = "β₀: a fix tengelymetszet",
@@ -247,7 +279,6 @@ server <- function(input, output, session) {
 <table style='display:inline-table; border-spacing:8px;'>
   <tr>
     <td>σ<sub>u0</sub><sup>2</sup></td>
-    <td>σ<sub>u01</sub></td>
   </tr>
   <tr>
     <td>σ<sub>u01</sub></td>
@@ -259,6 +290,46 @@ server <- function(input, output, session) {
     )
   })
   
+  # page 3
+  data_reactive <- reactive({
+    generate_data()
+  })
+  
+  model_reactive <- reactive({
+    df <- data_reactive()
+    model <- mixed(RT ~ item + (item | subject), data = df)
+    print(model$anova_table)
+    
+    print(tab_model(model$full_model,
+              df.method = "satterthwaite",
+              show.se = T,
+              show.stat = T,
+              show.df = T,
+              string.pred = "Terms",
+              string.est = "b",
+              string.ci = "95% CI",
+              string.se = "SE b",
+              string.stat = "t",
+              col.order = c("est", "se", "ci", "stat", "df.error", "p")))
+  })
+  
+  output$model_summary <- renderPrint({
+    model_reactive()
+  })
+  
+  output$residual_plot <- renderPlot({
+    
+    model <- model_reactive()
+    df <- data_reactive()
+
+    plot(model$full_model)
+  })
+  
+  output$qq_plot <- renderPlot({
+    model <- model_reactive()
+    df <- data_reactive()
+    qqPlot(resid(model$full_model))
+  })
 }
 
 shinyApp(ui, server)
