@@ -3,7 +3,7 @@
     "path": "D:/GitHub/LMM_tutorial/www/styles.css",
     "project_path": "www/styles.css",
     "type": "css",
-    "hash": "3905789390",
+    "hash": "3791917426",
     "contents": "",
     "dirty": false,
     "created": 1777361085884.0,
@@ -12,15 +12,15 @@
     "properties": {
         "source_window_id": "",
         "Source": "Source",
-        "cursorPosition": "97,22",
-        "scrollLine": "56"
+        "cursorPosition": "101,13",
+        "scrollLine": "71"
     },
     "folds": "",
-    "lastKnownWriteTime": 1777459172,
+    "lastKnownWriteTime": 1777470825,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1777459172880,
+    "last_content_update": 1777470825890,
     "read_only": false,
     "read_only_alternatives": []
 }

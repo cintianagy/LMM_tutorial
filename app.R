@@ -4,6 +4,9 @@ library(tidyverse)
 library(afex)
 library(sjPlot)
 library(gganimate)
+library(emmeans)
+library(rstatix)
+library(car)
 
 source("R/page1_intro.R")
 source('R/page2_fix_and_random.R')
@@ -297,24 +300,31 @@ server <- function(input, output, session) {
   
   model_reactive <- reactive({
     df <- data_reactive()
-    model <- mixed(RT ~ item + (item | subject), data = df)
-    print(model$anova_table)
-    
-    print(tab_model(model$full_model,
-              df.method = "satterthwaite",
-              show.se = T,
-              show.stat = T,
-              show.df = T,
-              string.pred = "Terms",
-              string.est = "b",
-              string.ci = "95% CI",
-              string.se = "SE b",
-              string.stat = "t",
-              col.order = c("est", "se", "ci", "stat", "df.error", "p")))
+    model <- mixed(RT ~ item*block_scaled + (item*block_scaled| subject), data = df)
   })
   
-  output$model_summary <- renderPrint({
-    model_reactive()
+  output$anova <- renderPrint({
+    model <- model_reactive()
+    model$anova_table
+  })
+  
+  output$model_table <- renderUI({
+    model <- model_reactive()
+      
+    tbl <- tab_model(
+        model$full_model,
+        df.method = "satterthwaite",
+        show.se = TRUE,
+        show.stat = TRUE,
+        show.df = TRUE,
+        string.pred = "Terms",
+        string.est = "b",
+        string.ci = "95% CI",
+        string.se = "SE b",
+        string.stat = "t",
+        col.order = c("est", "se", "ci", "stat", "df.error", "p")
+      )
+    HTML(tbl$page.complete)
   })
   
   output$residual_plot <- renderPlot({

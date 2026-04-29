@@ -3,7 +3,7 @@
     "path": "D:/GitHub/LMM_tutorial/R/simulation.R",
     "project_path": "R/simulation.R",
     "type": "r_source",
-    "hash": "2072243485",
+    "hash": "3458283779",
     "contents": "",
     "dirty": false,
     "created": 1777358480634.0,
@@ -12,15 +12,15 @@
     "properties": {
         "source_window_id": "",
         "Source": "Source",
-        "cursorPosition": "1,13",
-        "scrollLine": "0"
+        "cursorPosition": "8,74",
+        "scrollLine": "5"
     },
     "folds": "",
-    "lastKnownWriteTime": 1777460039,
+    "lastKnownWriteTime": 1777471862,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1777460039030,
+    "last_content_update": 1777471862156,
     "read_only": false,
     "read_only_alternatives": []
 }

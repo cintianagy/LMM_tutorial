@@ -97,3 +97,17 @@ code {
   font-size: 14px;
   padding-bottom: 5px;
 }
+
+.sjtable {
+  width: 100%;
+  font-size: 14px;
+}
+
+.sjtable table {
+  width: 100%;
+}
+
+.sjtable th, .sjtable td {
+  padding: 6px 10px;
+  text-align: center;
+}
