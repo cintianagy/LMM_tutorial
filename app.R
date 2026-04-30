@@ -25,7 +25,7 @@ ui <- page_fluid(
     nav_panel("4. Lehetséges problémák és kezelésük", page4_problems_solutions_ui()),
     nav_panel("5. Módszerek és eredmények közlése", page5_reporting_ui()),
     nav_panel("6. Kitekintés", page6_outlook_ui()),
-    nav_panel("7. Források és köszönetnyilvánítás", "content")
+    nav_panel("7. Források és köszönetnyilvánítás", page7_references_feedback_ui())
   ), 
   id = "tab" 
 )
@@ -52,12 +52,15 @@ server <- function(input, output, session) {
       geom_point(aes(color = group), alpha = alpha_val, size = 3.5) +
       geom_line(aes(group = group, color = group), alpha = 0.6 * alpha_val) +
       stat_ellipse(aes(group = group, color = group), linetype = 2, alpha = 0.5 * alpha_val) +
+      labs(color = "Személyek") +
+      theme_classic() +
       theme(
         axis.title = element_blank(),
         axis.text = element_blank(),
         axis.ticks = element_blank()
-      ) +
-      theme_classic()
+
+      )
+      
   })
   
   output$page1_explanation <- renderText({
@@ -114,6 +117,7 @@ server <- function(input, output, session) {
       
       base + 
         geom_point(aes(color = group), size = 3.5) +
+        labs(color = "Személyek") +
         geom_line(
           data = df_lines,
           aes(x = xs, y = pred, color = group, group = group),
@@ -135,8 +139,7 @@ server <- function(input, output, session) {
       
     } else if (term == "y") {
       
-      base +
-        geom_point(color = "#811331", size = 4)
+      base
       
     } else {
       base
@@ -148,13 +151,13 @@ server <- function(input, output, session) {
     term <- input$hover_term1 %||% "none"
     
     switch(term,
-           "y" = "yᵢⱼ: a megfigyelt kimeneti érték",
-           "x" = "xᵢⱼ: prediktor értéke", 
-           "beta0" = "β₀: a fix tengelymetszet",
-           "beta1" = "β₁: a fix meredekség – hogyan változik y az x függvényében",
+           "y" = "yᵢⱼ: megfigyelt kimeneti érték",
+           "x" = "xᵢⱼ: független változó értéke", 
+           "beta0" = "β₀: fix tengelymetszet",
+           "beta1" = "β₁: fix meredekség – hogyan változik y az x függvényében",
            "random" = "u₀ⱼ ~ N(0, σₑ²): random tengelymetszet – a tengelymetszet eltérése az fix tengelymetszettől",
            "error" = "εᵢⱼ ~ N(0, σₑ²): hibatag – meg nem magyarázott variancia",
-           "Vidd az egeret az egyenlet egy elemére."
+           "Vidd az egeret az egyenlet egyik elemére."
     )
   })
   
@@ -204,6 +207,7 @@ server <- function(input, output, session) {
       
       base + 
         geom_point(aes(color = group), size = 3.5) +
+        labs(color = "Személyek") +
         geom_line(
           data = df_lines,
           aes(x = xs, y = pred, color = group, group = group),
@@ -233,6 +237,7 @@ server <- function(input, output, session) {
           
           # highlight points
           geom_point(aes(color = group), size = 3.5) +
+          labs(color = "Személyek") +
           
           # different slope lines
           geom_line(
@@ -256,8 +261,7 @@ server <- function(input, output, session) {
       
     } else if (term == "y") {
       
-      base +
-        geom_point(color = "#811331", size = 4)
+      base
       
     } else {
       base
@@ -269,14 +273,14 @@ server <- function(input, output, session) {
     term2 <- input$hover_term2 %||% "none"
     
     switch(term2,
-           "y" = "yᵢⱼ: a megfigyelt kimeneti érték",
-           "x" = "xᵢⱼ: prediktor értéke", 
-           "beta0" = "β₀: a fix tengelymetszet",
-           "beta1" = "β₁: a fix meredekség – hogyan változik y az x függvényében",
+           "y" = "yᵢⱼ: megfigyelt kimeneti érték",
+           "x" = "xᵢⱼ: független változó értéke", 
+           "beta0" = "β₀: fix tengelymetszet",
+           "beta1" = "β₁: fix meredekség – hogyan változik y az x függvényében",
            "random" = "u₀ⱼ ~ N(0, σₑ²): random tengelymetszet – a tengelymetszet eltérése az fix tengelymetszettől",
            "error" = "εᵢⱼ ~ N(0, σₑ²): hibatag – meg nem magyarázott variancia",
            "random_slope" = HTML("
-(u<sub>0j</sub>, u<sub>1j</sub>) ~ N(0, Ω): random hatások<br><br>
+(u<sub>0j</sub>, u<sub>1j</sub>) ~ N(0, Ω): random meredekség - a meredekség eltérése az fix meredekségtől<br><br>
 
 Ω =
 <table style='display:inline-table; border-spacing:8px;'>

@@ -3,7 +3,7 @@
     "path": "D:/GitHub/LMM_tutorial/app.R",
     "project_path": "app.R",
     "type": "r_source",
-    "hash": "110172418",
+    "hash": "4145330082",
     "contents": "",
     "dirty": false,
     "created": 1776931010421.0,
@@ -13,15 +13,15 @@
         "tempName": "Untitled1",
         "source_window_id": "",
         "Source": "Source",
-        "cursorPosition": "302,84",
-        "scrollLine": "302"
+        "cursorPosition": "282,106",
+        "scrollLine": "264"
     },
     "folds": "",
-    "lastKnownWriteTime": 1777471895,
+    "lastKnownWriteTime": 1777560483,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1777471895468,
+    "last_content_update": 1777560483364,
     "read_only": false,
     "read_only_alternatives": []
 }
