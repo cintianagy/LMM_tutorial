@@ -1,12 +1,23 @@
-library(shiny)
-library(bslib)
-library(tidyverse)
-library(afex)
-library(sjPlot)
-library(gganimate)
-library(emmeans)
-library(rstatix)
-library(car)
+required_packages <- c(
+  "shiny",
+  "bslib",
+  "tidyverse",
+  "afex",
+  "sjPlot",
+  "gganimate",
+  "emmeans",
+  "rstatix",
+  "car"
+)
+
+
+missing_packages <- required_packages[!required_packages %in% installed.packages()[, "Package"]]
+
+if (length(missing_packages) > 0) {
+  install.packages(missing_packages)
+}
+
+lapply(required_packages, library, character.only = TRUE)
 
 source("R/page1_intro.R")
 source('R/page2_fix_and_random.R')
@@ -43,8 +54,7 @@ server <- function(input, output, session) {
   output$plot_page1 <- renderPlot({
     
     df <- df
-    
-    # this controls the transition
+
     alpha_val <- if (show_groups()) 1 else 0
     
     ggplot(df, aes(x = xs, y = outcome)) +
@@ -93,13 +103,11 @@ server <- function(input, output, session) {
     
     if (term == "random") {
       
-      # global model (fixed slope)
       fit <- lm(outcome ~ xs, data = df)
       
       beta0 <- coef(fit)[1]
       beta1 <- coef(fit)[2]
       
-      # group intercepts (mean deviation)
       group_intercepts <- aggregate(outcome ~ group, df, mean)
       names(group_intercepts)[2] <- "intercept"
       
@@ -182,14 +190,12 @@ server <- function(input, output, session) {
       )
     
     if (term == "random") {
-      
-      # global model (fixed slope)
+
       fit <- lm(outcome ~ xs, data = df)
       
       beta0 <- coef(fit)[1]
       beta1 <- coef(fit)[2]
-      
-      # group intercepts (mean deviation)
+
       group_intercepts <- aggregate(outcome ~ group, df, mean)
       names(group_intercepts)[2] <- "intercept"
       
@@ -216,15 +222,13 @@ server <- function(input, output, session) {
       
      } else if (term == "random_slope") {
         
-        # global model (fixed effects reference)
         fit_global <- lm(outcome ~ xs, data = df)
         beta0 <- coef(fit_global)[1]
-        
-        # group-specific models (random slopes)
+
         df_lines <- do.call(rbind, lapply(split(df, df$group), function(d) {
           
           fit <- lm(outcome ~ xs, data = d)
-          
+
           data.frame(
             group = d$group[1],
             xs = d$xs,
@@ -234,12 +238,8 @@ server <- function(input, output, session) {
         
         
         base +
-          
-          # highlight points
           geom_point(aes(color = group), size = 3.5) +
           labs(color = "Személyek") +
-          
-          # different slope lines
           geom_line(
             data = df_lines,
             aes(xs, pred, color = group, group = group),
