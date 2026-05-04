@@ -23,8 +23,9 @@ page3_fitting_ui <- function() {
     tags$code("model <- mixed(reakcióidő ~ item*blokk + (item*blokk | résztvevő), adat)"),
     p("Ha a modell sikeresen lefutott a következőkben az előfeltételeket kell tesztelnünk; 1. A kimeneti és prediktor változók között lineáris kapcsolatot feltételezünk, ugyanakkor a generalizált lineáris kevert modellek megoldást jelentenek erre (l. 6. Kitekintés),
       2. A reziduálisok szóródáshomogenitása, 3. A reziduálisok normalitása. Ez utóbbi feltételek sérülésére a modell robusztus.
-      A feltételeket a következő függvénnyel tesztelhetjük:"),
+      A feltételeket a következő függvényekkel tesztelhetjük:"),
     tags$code("plot(model$full_model)"),
+    p(""),
     tags$code("qqPlot(resid(model$full_model)"),
     layout_columns(
       div(plotOutput("residual_plot")),

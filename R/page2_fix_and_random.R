@@ -115,7 +115,7 @@ page2_fix_and_random_ui <- function() {
           style = "margin-top: 15px; font-size: 16px;",
           uiOutput("equation_explanation2"),
           p(""),
-          p("A random tengelymetszet nem veszi figyelembe az összes lehetséges dependenciát; elképzelhető, hogy az egyes kondicíók eltérően hatnak az egyes résztvevőkre.
+          p("A random tengelymetszet nem veszi figyelembe az összes lehetséges dependenciát; elképzelhető, hogy az egyes kondícíók eltérően hatnak az egyes résztvevőkre.
             Ekkor kell egy új hatást bevezetni; a random meredekséget, azaz, hogy résztvevő szintjén mennyire mozdul el az egyes feltételek mentén az egyenes meredeksége.
             A random hatások között lehet korreláció is.")
         )
@@ -128,7 +128,7 @@ page2_fix_and_random_ui <- function() {
     em("(nested)."),
     "A",
     strong("keresztezett random hatások"),
-    "akkor jelenek meg, ha a variabilitásnak nem csak egy forrása van (pl. a résztvevő), hanem több is (pl. résztvevő és az itemek nehézsége).",
+    "akkor jelennek meg, ha a variabilitásnak nem csak egy forrása van (pl. a résztvevő), hanem több is (pl. résztvevő és az itemek nehézsége).",
     "Az ",
     strong("egymásba ágyazott random hatások"),
     "esetén az egyik random hatás egyes szintjei csak egy másik random hatás egyik szintjén jelennek meg, például random hatás, hogy melyik iskola tanulóit vizsgáljuk, de az iskolán belül az osztályok is ilyen hatást eredményeznek.")

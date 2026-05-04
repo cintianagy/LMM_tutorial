@@ -163,7 +163,7 @@ server <- function(input, output, session) {
            "x" = "xᵢⱼ: független változó értéke", 
            "beta0" = "β₀: fix tengelymetszet",
            "beta1" = "β₁: fix meredekség – hogyan változik y az x függvényében",
-           "random" = "u₀ⱼ ~ N(0, σₑ²): random tengelymetszet – a tengelymetszet eltérése az fix tengelymetszettől",
+           "random" = "u₀ⱼ ~ N(0, σᵤ²): random tengelymetszet – a tengelymetszet eltérése az fix tengelymetszettől",
            "error" = "εᵢⱼ ~ N(0, σₑ²): hibatag – meg nem magyarázott variancia",
            "Vidd az egeret az egyenlet egyik elemére."
     )
@@ -277,7 +277,7 @@ server <- function(input, output, session) {
            "x" = "xᵢⱼ: független változó értéke", 
            "beta0" = "β₀: fix tengelymetszet",
            "beta1" = "β₁: fix meredekség – hogyan változik y az x függvényében",
-           "random" = "u₀ⱼ ~ N(0, σₑ²): random tengelymetszet – a tengelymetszet eltérése az fix tengelymetszettől",
+           "random" = "u₀ⱼ ~ N(0, σᵤ²): random tengelymetszet – a tengelymetszet eltérése az fix tengelymetszettől",
            "error" = "εᵢⱼ ~ N(0, σₑ²): hibatag – meg nem magyarázott variancia",
            "random_slope" = HTML("
 (u<sub>0j</sub>, u<sub>1j</sub>) ~ N(0, Ω): random meredekség - a meredekség eltérése az fix meredekségtől<br><br>
