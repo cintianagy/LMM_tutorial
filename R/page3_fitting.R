@@ -9,8 +9,8 @@ page3_fitting_ui <- function() {
       tags$link(rel = "stylesheet", href = "styles.css")
     ),
     h2("Hogyan illesszünk modellt R-ben?"),
-    p("A következőkben egy példakutatáson keresztül vesszük át, hogyan lehet lináris kevert modell futtatni R-ben.
-      A kutatás során a résztvevők egy egyszerű, reakcióidőt mérő feladatot végéztek el. A feladatban kétféle item fordult elő,
+    p("A következőkben egy példakutatáson keresztül vesszük át, hogyan lehet lineáris kevert modell futtatni R-ben.
+      A kutatás során a résztvevők egy egyszerű, reakcióidőt mérő feladatot végeztek el. A feladatban kétféle item fordult elő,
       valamint a feladat több blokkból állt. Feltételezhetjük, hogy a személyek reakcióidejében lesz egyéni variancia, valamint az eltérő 
       itemekre másképpen fognak reagálni."),
     p("A lineáris kevert modellek illesztéséhez az R program ",
