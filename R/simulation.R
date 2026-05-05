@@ -8,7 +8,7 @@ generate_data <- function(n_subjects = 40, n_items = 2, n_trials = 20) {
   subject <- factor(rep(1:n_subjects, each = n_items * n_trials))
   item <- factor(rep(rep(1:n_items, each = n_trials), times = n_subjects))
   block <- rep(rep(1:n_trials, times = n_items), times = n_subjects)
-  block_scaled <- scale(block, center = TRUE, scale = TRUE)[,1]
+  block_centered <- scale(block, center = TRUE, scale = TRUE)[,1]
   
   # fixed effects
   beta0 <- 600
@@ -31,10 +31,10 @@ generate_data <- function(n_subjects = 40, n_items = 2, n_trials = 20) {
   # generate RT
   RT <- beta0 +
     beta_item[item] +
-    beta_time * block_scaled +
+    beta_time * block_centered +
     u0_long +
     u1_long * item_num +
-    u2_long * block_scaled +
+    u2_long * block_centered +
     rnorm(length(subject), 0, 60)
   
   data.frame(
@@ -42,6 +42,6 @@ generate_data <- function(n_subjects = 40, n_items = 2, n_trials = 20) {
     item = item,
     subject = subject,
     block = block,
-    block_scaled = block_scaled
+    block_centered = block_centered
   )
 }
