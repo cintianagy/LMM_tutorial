@@ -121,7 +121,7 @@ page2_fix_and_random_ui <- function() {
         )
       )
     ),
-    p("Fontos megjegyezni, hogy a random hatások beléptetése nem változtatja meg a fix hatások értelmezését, hanem azt mutatja meg, hogy a random hatás különböző szintjein van-e eltérés a fix hatásban vagy sem, továbbá korrigálják az adatok nemfüggetlenségét."),
+    p("Fontos megjegyezni, hogy a random hatások beléptetése nem változtatja meg a fix hatások értelmezését, hanem azt mutatja meg, hogy a random hatás különböző szintjein van-e eltérés a fix hatásban vagy sem, továbbá korrigálják az adatok közötti függőséget."),
     p("A random hatásoknak a forrásuk alapján két típusa létezik: keresztezett ",
     em("(crossed)"),
     "és egymásba ágyazott", 

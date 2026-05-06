@@ -293,7 +293,7 @@ server <- function(input, output, session) {
   </tr>
 </table>
 "),
-           "Vidd az egeret az egyenlet egy elemére."
+           "Vidd az egeret az egyenlet egyik elemére."
     )
   })
   
