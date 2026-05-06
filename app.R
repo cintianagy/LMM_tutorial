@@ -304,7 +304,7 @@ server <- function(input, output, session) {
   
   model_reactive <- reactive({
     df <- data_reactive()
-    model <- mixed(RT ~ item*block_scaled + (item*block_scaled| subject), data = df)
+    model <- mixed(RT ~ item*block_centered + (item*block_centered| subject), data = df)
   })
   
   output$anova <- renderPrint({
