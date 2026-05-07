@@ -22,7 +22,7 @@ page6_outlook_ui <- function() {
       em("mixedpower"),
       "vagy",
       em("simr"),
-      "csomag segítségével (ez utóbbi rugalmasabb szimuláció beállításai terén)."),
+      "csomag segítségével (ez utóbbi rugalmasabb a szimuláció beállításai terén)."),
     h3("Bayesiánus modellek"),
     p("A lineáris modelleket bayesiánus módon is futtathatjuk. Ez sok esetben lecsökkenti a konvergencia problémákat.
       A statisztikai interferencia során a",
@@ -31,6 +31,6 @@ page6_outlook_ui <- function() {
       em("(credible interval)"),
       "értelmezzünk. A bayesiánus modell könnyen futtatható a",
       em("brms"),
-      "csomaggal. A hátrányok ugyanakkor a komputációs erőforrás igény, valamint az, hogy a priorok specifikálása nem triviális folyamat."),
+      "csomaggal. A hátrányok ugyanakkor a komputációs erőforrásigény, valamint az, hogy a priorok specifikálása nem triviális folyamat."),
   )
 }
