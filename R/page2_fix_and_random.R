@@ -122,6 +122,18 @@ page2_fix_and_random_ui <- function() {
       )
     ),
     p("Fontos megjegyezni, hogy a random hatások beléptetése nem változtatja meg a fix hatások értelmezését, hanem azt mutatja meg, hogy a random hatás különböző szintjein van-e eltérés a fix hatásban vagy sem, továbbá korrigálják az adatok közötti függőséget."),
+    p("A random hatásokat az adatok csoportosításának",
+    em("(pooling)"),
+    "szemszögéből is értelmezhetjük. A csak fix hatásokat tartalmazó lineáris regresszió a személyek közötti varianciát figyelmen kívül hagyja, a teljes adatbázist egyszerre modellezi, viszont ekkor az adatok függetlenségének feltétele sérül – ezt nevezzük teljes csoportosításnak",
+    em("(complete pooling)."),
+    "Ha egyáltalán nincs csoportosítás",
+    em("(no pooling),"),
+    "akkor minden személy esetén külön-külön regressziós paramétereket kell becsülni, ami szintén problematikus, mert adatigényes, illetve az regressziós egyenesek átfogó elemzése komplikált. A részleges csoportosítás",
+    em("(partial pooling)"),
+    "esete a lineáris kevert modellek, amikor egyes résztvevőkhöz külön regressziós paraméterek tartoznak, ugyanakkor a random hatások normális eloszlásának feltétele biztosítja, hogy a modell a teljes adatbázist figyelembe veszi. Tehát ezen modellek megragadják az egyéni variabilitást, ugyanakkor azt is, hogy a személyek valamilyen szinten hasonlók is egymáshoz."),
+    p("A modell feltételezi, hogy az adatok ugyanazon eloszlásból származnak, így az illesztés során a prediktált értékek közelebb kerülnek a nagyátlaghoz",
+    em("(shrinkage)."),
+    "Ez a közelítés az extrémebb értékek esetén jelentősebb, ugyanis a normális eloszlás alatt ezen értékek kisebb valószínűséggel fordulnak elő, ezért feltételezhető, hogy ezek az adatok kevésbé megbízhatóak. E jelenség révén csökkentjük a túlillesztés esélyét, így a predikcióink könnyebben generalizálhatóvá válnak."),
     p("A random hatásoknak a forrásuk alapján két típusa létezik: keresztezett ",
     em("(crossed)"),
     "és egymásba ágyazott", 
@@ -133,4 +145,5 @@ page2_fix_and_random_ui <- function() {
     strong("egymásba ágyazott random hatások"),
     "esetén az egyik random hatás egyes szintjei csak egy másik random hatás egyik szintjén jelennek meg, például random hatás, hogy melyik iskola tanulóit vizsgáljuk, de az iskolán belül az osztályok is ilyen hatást eredményeznek.")
   )
+
 }
