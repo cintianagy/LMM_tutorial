@@ -3,7 +3,7 @@
     "path": "D:/GitHub/LMM_tutorial/R/page7_references_feedback.R",
     "project_path": "R/page7_references_feedback.R",
     "type": "r_source",
-    "hash": "1380511432",
+    "hash": "1232055481",
     "contents": "",
     "dirty": false,
     "created": 1778139945987.0,
@@ -12,15 +12,15 @@
     "properties": {
         "source_window_id": "",
         "Source": "Source",
-        "cursorPosition": "17,243",
+        "cursorPosition": "16,75",
         "scrollLine": "0"
     },
     "folds": "",
-    "lastKnownWriteTime": 1778140017,
+    "lastKnownWriteTime": 1778490022,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1778140017819,
+    "last_content_update": 1778490022318,
     "read_only": false,
     "read_only_alternatives": []
 }
