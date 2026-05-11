@@ -3,7 +3,7 @@
     "path": "D:/GitHub/LMM_tutorial/R/page6_outlook.R",
     "project_path": "R/page6_outlook.R",
     "type": "r_source",
-    "hash": "463564236",
+    "hash": "2054762579",
     "contents": "",
     "dirty": false,
     "created": 1777892467814.0,
@@ -12,15 +12,15 @@
     "properties": {
         "source_window_id": "",
         "Source": "Source",
-        "cursorPosition": "24,52",
+        "cursorPosition": "26,35",
         "scrollLine": "0"
     },
     "folds": "",
-    "lastKnownWriteTime": 1778156341,
+    "lastKnownWriteTime": 1778508340,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1778156341251,
+    "last_content_update": 1778508340323,
     "read_only": false,
     "read_only_alternatives": []
 }

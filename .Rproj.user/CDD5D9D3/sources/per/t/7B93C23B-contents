@@ -51,7 +51,7 @@ page2_fix_and_random_ui <- function() {
         ),
         " + ",
         span(class = "eq-term",
-             "εᵢⱼ",
+             "eᵢⱼ",
              onmouseover = "Shiny.setInputValue('hover_term1', 'error', {priority: 'event'})",
              onmouseout  = "Shiny.setInputValue('hover_term1', 'none', {priority: 'event'})"
         ),
@@ -107,7 +107,7 @@ page2_fix_and_random_ui <- function() {
         ),
         " + ",
         span(class = "eq-term",
-             "εᵢⱼ",
+             "e₀ᵢⱼ",
              onmouseover = "Shiny.setInputValue('hover_term2', 'error', {priority: 'event'})",
              onmouseout  = "Shiny.setInputValue('hover_term2', 'none', {priority: 'event'})"
         ),
@@ -128,7 +128,7 @@ page2_fix_and_random_ui <- function() {
     em("(complete pooling)."),
     "Ha egyáltalán nincs csoportosítás",
     em("(no pooling),"),
-    "akkor minden személy esetén külön-külön regressziós paramétereket kell becsülni, ami szintén problematikus, mert adatigényes, illetve az regressziós egyenesek átfogó elemzése komplikált. A részleges csoportosítás",
+    "akkor minden személy esetén külön-külön regressziós paramétereket kell becsülni, ami szintén problematikus, mert adatigényes, illetve a regressziós egyenesek átfogó elemzése komplikált. A részleges csoportosítás",
     em("(partial pooling)"),
     "esete a lineáris kevert modellek, amikor egyes résztvevőkhöz külön regressziós paraméterek tartoznak, ugyanakkor a random hatások normális eloszlásának feltétele biztosítja, hogy a modell a teljes adatbázist figyelembe veszi. Tehát ezen modellek megragadják az egyéni variabilitást, ugyanakkor azt is, hogy a személyek valamilyen szinten hasonlók is egymáshoz."),
     p("A modell feltételezi, hogy az adatok ugyanazon eloszlásból származnak, így az illesztés során a prediktált értékek közelebb kerülnek a nagyátlaghoz",

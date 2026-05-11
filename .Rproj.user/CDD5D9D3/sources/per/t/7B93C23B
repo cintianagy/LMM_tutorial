@@ -3,7 +3,7 @@
     "path": "D:/GitHub/LMM_tutorial/R/page2_fix_and_random.R",
     "project_path": "R/page2_fix_and_random.R",
     "type": "r_source",
-    "hash": "927481055",
+    "hash": "2217994485",
     "contents": "",
     "dirty": false,
     "created": 1777639130971.0,
@@ -12,15 +12,15 @@
     "properties": {
         "source_window_id": "",
         "Source": "Source",
-        "cursorPosition": "147,0",
-        "scrollLine": "0"
+        "cursorPosition": "53,15",
+        "scrollLine": "32"
     },
     "folds": "",
-    "lastKnownWriteTime": 1778140463,
+    "lastKnownWriteTime": 1778509304,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1778140463380,
+    "last_content_update": 1778509304269,
     "read_only": false,
     "read_only_alternatives": []
 }

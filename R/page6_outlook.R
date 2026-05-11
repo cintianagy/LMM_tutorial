@@ -23,9 +23,9 @@ page6_outlook_ui <- function() {
       "vagy",
       em("simr"),
       "csomag segítségével (ez utóbbi rugalmasabb a szimuláció beállításai terén)."),
-    h3("Bayesiánus modellek"),
-    p("A lineáris modelleket bayesiánus módon is futtathatjuk. Ez sok esetben lecsökkenti a konvergencia problémákat.
-      A statisztikai interferencia során a",
+    h3("Bayesi modellek"),
+    p("A lineáris modelleket bayesi módon is futtathatjuk. Ez sok esetben lecsökkenti a konvergencia problémákat.
+      A statisztikai inferencia során a",
       em("p"),
       "- érték helyett bizonyossági intervallumokat",
       em("(credible interval)"),

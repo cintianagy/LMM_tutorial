@@ -26,7 +26,7 @@ page3_fitting_ui <- function() {
       A feltételeket a következő függvényekkel tesztelhetjük:"),
     tags$code("plot(model$full_model)"),
     p(""),
-    tags$code("qqPlot(resid(model$full_model)"),
+    tags$code("qqPlot(resid(model$full_model))"),
     layout_columns(
       div(plotOutput("residual_plot")),
       div(plotOutput("qq_plot")),
@@ -49,14 +49,14 @@ page3_fitting_ui <- function() {
     layout_columns(
       uiOutput("model_table"),
       div(
-        p("Az alábbi táblázat tartalmazza az egyes hatásokhoz tartozó béta értéket (egy egységnyi változás a független változóban mekkora változást eredményez a kimeneti változóban), a standardizált béta értéket,
+        p("Az alábbi táblázat tartalmazza az egyes hatásokhoz tartozó béta értéket (egy egységnyi változás a független változóban mekkora változást eredményez a kimeneti változóban), a béta standard hibáját,
     a konfidencia intervallumot, valamint a hatáshoz tartozó tesztstatisztikát, szabadságfokot és ",
           em("p"),
           "- értéket."
         ),
         p("Az eredmények értelmezéséhez a fix hatások együtthatóit használhatjuk, ami a független változó és a kimeneti változó közötti kapcsolatot méri a random hatások figyelembevétele után, valamint ezek",
           em("p"),
-          "-értékét. Másik módszer a a fix hatások III. típusú tesztje, ami a modell két verziójának összehasonlításán alapulnak - a tesztelendő hatás nélkül vs. a tesztelendő hatással együtt."),
+          "-értékét. Másik módszer a fix hatások III. típusú tesztje, ami a modell két verziójának összehasonlításán alapulnak - a tesztelendő hatás nélkül vs. a tesztelendő hatással együtt."),
         p("A táblázat alsó részében a random hatásokról kapunk információt. Az ICC (intraclass correlation) mutatja meg a korrelációt két, azonos csoportból random kiválasztott alany értékei között.
       A τ az egyes hatásokhoz tartozó varianciát, míg a ρ a random hatások közötti korrelációt mutatja.
       A modell magyarázó erejét a marginális (a fix hatások által megmagyarázott variancia) és feltételes R² (a fix és random hatások által megmagyarázott variancia) érték adja meg."
