@@ -3,7 +3,7 @@
     "path": "D:/GitHub/LMM_tutorial/R/page3_fitting.R",
     "project_path": "R/page3_fitting.R",
     "type": "r_source",
-    "hash": "803766141",
+    "hash": "1980420318",
     "contents": "",
     "dirty": false,
     "created": 1777639134573.0,
@@ -12,15 +12,15 @@
     "properties": {
         "source_window_id": "",
         "Source": "Source",
-        "cursorPosition": "58,37",
-        "scrollLine": "22"
+        "cursorPosition": "47,100",
+        "scrollLine": "20"
     },
     "folds": "",
-    "lastKnownWriteTime": 1778508103,
+    "lastKnownWriteTime": 1778577193,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1778508103150,
+    "last_content_update": 1778577193836,
     "read_only": false,
     "read_only_alternatives": []
 }

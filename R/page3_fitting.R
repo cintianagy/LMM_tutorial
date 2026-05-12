@@ -45,7 +45,7 @@ page3_fitting_ui <- function() {
       em("p -"),
       "értékeket. Fontos észrevenni, hogy a modellbe nem az eredeti blokk változót léptettük be, hanem a ",
       strong("centrált"),
-      "verzióját. Ezt az átalakítást a folytonos prediktorok esetén kell megtennünk, hiszen így tudunk a változó 0-dik értékén is értelmezni a hatásokat.")),
+      "verzióját. Ezt az átalakítást a folytonos prediktorok esetén kell megtennünk, hiszen így tudjuk a változó 0-dik értékén is értelmezni a hatásokat.")),
     layout_columns(
       uiOutput("model_table"),
       div(

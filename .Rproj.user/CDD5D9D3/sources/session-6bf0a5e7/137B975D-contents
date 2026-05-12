@@ -19,6 +19,7 @@ if (length(missing_packages) > 0) {
 
 lapply(required_packages, library, character.only = TRUE)
 
+source("R/simulation.R")
 source("R/page1_intro.R")
 source('R/page2_fix_and_random.R')
 source("R/page3_fitting.R")
@@ -36,7 +37,7 @@ ui <- page_fluid(
     nav_panel("4. Lehetséges problémák és kezelésük", page4_problems_solutions_ui()),
     nav_panel("5. Módszerek és eredmények közlése", page5_reporting_ui()),
     nav_panel("6. Kitekintés", page6_outlook_ui()),
-    nav_panel("7. Források és köszönetnyilvánítás", page7_references_feedback_ui())
+    nav_panel("7. Források és visszajelzések", page7_references_feedback_ui())
   ), 
   id = "tab" 
 )
@@ -53,46 +54,42 @@ server <- function(input, output, session) {
   
   output$plot_page1 <- renderPlot({
     
-    df <- df
-
+    # generate fresh data
+    plot_data <- generate_page1_data()
+    
     alpha_val <- if (show_groups()) 1 else 0
     
-    ggplot(df, aes(x = xs, y = outcome)) +
+    ggplot(plot_data, aes(x = xs, y = outcome)) +
       geom_point(color = "gray70", size = 3) +
       geom_point(aes(color = group), alpha = alpha_val, size = 3.5) +
       geom_line(aes(group = group, color = group), alpha = 0.6 * alpha_val) +
-      stat_ellipse(aes(group = group, color = group), linetype = 2, alpha = 0.5 * alpha_val) +
+      stat_ellipse(
+        aes(group = group, color = group),
+        linetype = 2,
+        alpha = 0.5 * alpha_val
+      ) +
       labs(color = "Személyek") +
       theme_classic() +
       theme(
         axis.title = element_blank(),
         axis.text = element_blank(),
         axis.ticks = element_blank()
-
       )
-      
-  })
-  
-  output$page1_explanation <- renderText({
-    if (!show_groups()) {
-      "Első ránézésre az adatok függetlennek tűnnek."
-    } else {
-      "Valójában az adatok között van kapcsolat – ugyanazon személytől származnak."
-    }
   })
   
   # page 2: random intercept
+  page2_data <- reactive({
+    generate_page2_data()
+  })
+  
   hover_term1 <- reactive({
     input$hover_term1 %||% "none"
   })
   
   output$plot1_page2 <- renderPlot({
-    
-    df <- df
-    
+    plot_data <- page2_data()
     term <- hover_term1()
-    
-    base <- ggplot(df, aes(xs, outcome)) +
+    base <- ggplot(plot_data, aes(xs, outcome)) +
       geom_point(color = "gray70", size = 3) +
       theme_classic() +
       theme(
@@ -103,24 +100,20 @@ server <- function(input, output, session) {
     
     if (term == "random") {
       
-      fit <- lm(outcome ~ xs, data = df)
+      fit <- lm(outcome ~ xs, data = plot_data)
       
       beta0 <- coef(fit)[1]
       beta1 <- coef(fit)[2]
       
-      group_intercepts <- aggregate(outcome ~ group, df, mean)
+      group_intercepts <- aggregate(outcome ~ group, plot_data, mean)
       names(group_intercepts)[2] <- "intercept"
       
-      df_lines <- do.call(rbind, lapply(split(df, df$group), function(d) {
+      df_lines <- do.call(rbind, lapply(split(plot_data, plot_data$group), function(d) {
         
         g <- d$group[1]
         intercept <- group_intercepts$intercept[group_intercepts$group == g]
         
-        data.frame(
-          group = g,
-          xs = d$xs,
-          pred = intercept + beta1 * d$xs
-        )
+        data.frame(group = g, xs = d$xs, pred = intercept + beta1 * d$xs)
       }))
       
       base + 
@@ -131,22 +124,37 @@ server <- function(input, output, session) {
           aes(x = xs, y = pred, color = group, group = group),
           size = 1.2
         )
-  
+      
     } else if (term == "beta1") {
       
       base +
-        geom_smooth(method = "lm", se = FALSE, color = "#7393B3", size = 1.5)
-    }
-      else if (term == "beta0") {
-        beta0 <- coef(lm(outcome ~ xs, data = df))[1]
-        base +
-          geom_hline(yintercept = beta0, linetype = "dashed", color = "black") +
-          annotate("text", x = min(df$xs), y = beta0,
-                   label = expression(beta[0]),
-                   hjust = -0.2, vjust = -1)
+        geom_smooth(
+          method = "lm",
+          se = FALSE,
+          color = "#7393B3",
+          size = 1.5
+        )
+      
+    } else if (term == "beta0") {
+      
+      beta0 <- coef(lm(outcome ~ xs, data = plot_data))[1]
+      
+      base +
+        geom_hline(
+          yintercept = beta0,
+          linetype = "dashed",
+          color = "black"
+        ) +
+        annotate(
+          "text",
+          x = min(plot_data$xs),
+          y = beta0,
+          label = expression(beta[0]),
+          hjust = -0.2,
+          vjust = -1
+        )
       
     } else if (term == "y") {
-      
       base
       
     } else {
@@ -154,33 +162,36 @@ server <- function(input, output, session) {
     }
   })
   
+  
   output$equation_explanation <- renderText({
     
     term <- input$hover_term1 %||% "none"
     
-    switch(term,
-           "y" = "yᵢⱼ: megfigyelt kimeneti érték",
-           "x" = "xᵢⱼ: független változó értéke", 
-           "beta0" = "β₀: fix tengelymetszet",
-           "beta1" = "β₁: fix meredekség – hogyan változik y az x függvényében",
-           "random" = "u₀ⱼ ~ N(0, σᵤ²): random tengelymetszet – a tengelymetszet eltérése az fix tengelymetszettől",
-           "error" = "eᵢⱼ ~ N(0, σₑ²): hibatag – meg nem magyarázott variancia",
-           "Vidd az egeret az egyenlet egyik elemére."
+    switch(
+      term,
+      "y" = "yᵢⱼ: megfigyelt kimeneti érték",
+      "x" = "xᵢⱼ: független változó értéke",
+      "beta0" = "β₀: fix tengelymetszet",
+      "beta1" = "β₁: fix meredekség – hogyan változik y az x függvényében",
+      "random" = "u₀ⱼ ~ N(0, σᵤ²): random tengelymetszet – a tengelymetszet eltérése a fix tengelymetszettől",
+      "error" = "eᵢⱼ ~ N(0, σₑ²): hibatag – meg nem magyarázott variancia",
+      "Vidd az egeret az egyenlet egyik elemére."
     )
   })
   
   # page 2: random slope
+  
   hover_term2 <- reactive({
     input$hover_term2 %||% "none"
   })
   
   output$plot2_page2 <- renderPlot({
     
-    df <- df
+    plot_data <- page2_data()
     
     term <- hover_term2()
     
-    base <- ggplot(df, aes(xs, outcome)) +
+    base <- ggplot(plot_data, aes(xs, outcome)) +
       geom_point(color = "gray70", size = 3) +
       theme_classic() +
       theme(
@@ -190,16 +201,16 @@ server <- function(input, output, session) {
       )
     
     if (term == "random") {
-
-      fit <- lm(outcome ~ xs, data = df)
+      
+      fit <- lm(outcome ~ xs, data = plot_data)
       
       beta0 <- coef(fit)[1]
       beta1 <- coef(fit)[2]
-
-      group_intercepts <- aggregate(outcome ~ group, df, mean)
+      
+      group_intercepts <- aggregate(outcome ~ group, plot_data, mean)
       names(group_intercepts)[2] <- "intercept"
       
-      df_lines <- do.call(rbind, lapply(split(df, df$group), function(d) {
+      df_lines <- do.call(rbind, lapply(split(plot_data, plot_data$group), function(d) {
         
         g <- d$group[1]
         intercept <- group_intercepts$intercept[group_intercepts$group == g]
@@ -220,67 +231,86 @@ server <- function(input, output, session) {
           size = 1.2
         )
       
-     } else if (term == "random_slope") {
+    } else if (term == "random_slope") {
+      
+      fit_global <- lm(outcome ~ xs, data = plot_data)
+      beta0 <- coef(fit_global)[1]
+      
+      df_lines <- do.call(rbind, lapply(split(plot_data, plot_data$group), function(d) {
         
-        fit_global <- lm(outcome ~ xs, data = df)
-        beta0 <- coef(fit_global)[1]
-
-        df_lines <- do.call(rbind, lapply(split(df, df$group), function(d) {
-          
-          fit <- lm(outcome ~ xs, data = d)
-
-          data.frame(
-            group = d$group[1],
-            xs = d$xs,
-            pred = predict(fit, newdata = d)
-          )
-        }))
+        fit <- lm(outcome ~ xs, data = d)
         
-        
-        base +
-          geom_point(aes(color = group), size = 3.5) +
-          labs(color = "Személyek") +
-          geom_line(
-            data = df_lines,
-            aes(xs, pred, color = group, group = group),
-            size = 1.2
-          )
-        
+        data.frame(
+          group = d$group[1],
+          xs = d$xs,
+          pred = predict(fit, newdata = d)
+        )
+      }))
+      
+      base +
+        geom_point(aes(color = group), size = 3.5) +
+        labs(color = "Személyek") +
+        geom_line(
+          data = df_lines,
+          aes(xs, pred, color = group, group = group),
+          size = 1.2
+        )
+      
     } else if (term == "beta1") {
       
       base +
-        geom_smooth(method = "lm", se = FALSE, color = "#7393B3", size = 1.5)
-    }
-    else if (term == "beta0") {
-      beta0 <- coef(lm(outcome ~ xs, data = df))[1]
+        geom_smooth(
+          method = "lm",
+          se = FALSE,
+          color = "#7393B3",
+          size = 1.5
+        )
+      
+    } else if (term == "beta0") {
+      
+      beta0 <- coef(lm(outcome ~ xs, data = plot_data))[1]
+      
       base +
-        geom_hline(yintercept = beta0, linetype = "dashed", color = "black") +
-        annotate("text", x = min(df$xs), y = beta0,
-                 label = expression(beta[0]),
-                 hjust = -0.2, vjust = -1)
+        geom_hline(
+          yintercept = beta0,
+          linetype = "dashed",
+          color = "black"
+        ) +
+        annotate(
+          "text",
+          x = min(plot_data$xs),
+          y = beta0,
+          label = expression(beta[0]),
+          hjust = -0.2,
+          vjust = -1
+        )
       
     } else if (term == "y") {
       
       base
       
     } else {
+      
       base
     }
   })
+  
   
   output$equation_explanation2 <- renderUI({
     
     term2 <- input$hover_term2 %||% "none"
     
-    switch(term2,
-           "y" = "yᵢⱼ: megfigyelt kimeneti érték",
-           "x" = "xᵢⱼ: független változó értéke", 
-           "beta0" = "β₀: fix tengelymetszet",
-           "beta1" = "β₁: fix meredekség – hogyan változik y az x függvényében",
-           "random" = "u₀ⱼ ~ N(0, σᵤ²): random tengelymetszet – a tengelymetszet eltérése az fix tengelymetszettől",
-           "error" = "e₀ᵢⱼ ~ N(0, σₑ²): hibatag – meg nem magyarázott variancia",
-           "random_slope" = HTML("
-(u<sub>0j</sub>, u<sub>1j</sub>) ~ N(0, Ω): random meredekség - a meredekség eltérése az fix meredekségtől<br><br>
+    switch(
+      term2,
+      "y" = "yᵢⱼ: megfigyelt kimeneti érték",
+      "x" = "xᵢⱼ: független változó értéke",
+      "beta0" = "β₀: fix tengelymetszet",
+      "beta1" = "β₁: fix meredekség – hogyan változik y az x függvényében",
+      "random" = "u₀ⱼ ~ N(0, σᵤ²): random tengelymetszet – a tengelymetszet eltérése a fix tengelymetszettől",
+      "error" = "eᵢⱼ ~ N(0, σₑ²): hibatag – meg nem magyarázott variancia",
+      "random_slope" = HTML("
+(u<sub>0j</sub>, u<sub>1j</sub>) ~ N(0, Ω): random meredekség – a meredekség eltérése a fix meredekségtől
+<br><br>
 
 Ω =
 <table style='display:inline-table; border-spacing:8px;'>
@@ -293,7 +323,8 @@ server <- function(input, output, session) {
   </tr>
 </table>
 "),
-           "Vidd az egeret az egyenlet egyik elemére."
+      
+      "Vidd az egeret az egyenlet egyik elemére."
     )
   })
   
