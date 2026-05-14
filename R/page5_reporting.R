@@ -18,7 +18,7 @@ page5_reporting_ui <- function() {
       tags$li("A modellszelekció lépései"),
       tags$li("Konvergencia problémák és megoldásuk"),
       tags$li("A végső modell egyenlete"),
-      tags$li("A végső modell részletei: fix hatások (együtthatók, standard hiba/konfidencia intervallum, teszt statisztikák és p-értékek), random hatások (szórás/variancia), illeszkedési mutatók"),
+      tags$li("A végső modell részletei: fix hatások (együtthatók, standard hiba/konfidencia intervallum, tesztstatisztikák és p-értékek), random hatások (szórás/variancia), illeszkedési mutatók"),
       tags$li("Adatok és elemzőkódok")
     )
   )
